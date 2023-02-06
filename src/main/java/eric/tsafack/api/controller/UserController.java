@@ -9,11 +9,13 @@ import java.util.Map;
 
 @RequestMapping("/users")
 public interface UserController {
+    @GetMapping("/welcome")
+    String welcome();
     @PostMapping("/create")
-    ResponseEntity<User> createUser(@RequestBody Map<String,String> requestMap);
-    @GetMapping("/user/{id}")
+    ResponseEntity<String> createUser(@RequestBody Map<String,String> requestMap);
+    @GetMapping("/get/{id}")
     ResponseEntity<User> getUserById(@PathVariable Integer id);
-    @GetMapping("/list")
+    @GetMapping("/all")
     ResponseEntity<List<User>> getAll();
     @PutMapping("/update")
     ResponseEntity<String> updateUser(@RequestBody Map<String,String> requestMap);

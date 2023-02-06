@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User createUser(Map<String, String> requestMap) {
+    public String createUser(Map<String, String> requestMap) {
         try{
             log.info("createUser(Map<String, String> requestMap)");
             User user = new User();
@@ -33,12 +33,13 @@ public class UserServiceImpl implements UserService {
             user.setLastName(requestMap.get("lastName"));
             user.setCity(requestMap.get("city"));
             user.setEmail(requestMap.get("email"));
-            return userRepository.save(user);
+            userRepository.save(user);
+            return "User created successfully";
             //return new ResponseEntity<>("user added successfully",HttpStatus.OK);
         }catch (Exception ex){
             ex.printStackTrace();
         }
-        return new User();
+        return "internal server error";
     }
 
     @Override
@@ -56,7 +57,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<String> updateUser(Map<String, String> requestMap) {
+    public String updateUser(Map<String, String> requestMap) {
         try{
             log.info("updateUser(Map<String, String> requestMap)");
            User user = new User();
@@ -67,26 +68,26 @@ public class UserServiceImpl implements UserService {
             user.setCity(requestMap.get("city"));
             user.setEmail(requestMap.get("email"));
             userRepository.save(user);
-            return  new ResponseEntity<>("user updated successfully",HttpStatus.OK);
+            return "user updated successfully";
         }catch (Exception ex){
             ex.printStackTrace();
         }
-        return new ResponseEntity<>("", HttpStatus.INTERNAL_SERVER_ERROR);
+        return "Internal server";
     }
 
     @Override
-    public ResponseEntity<String>deleteUser(Integer id) {
+    public String deleteUser(Integer id) {
         try{
             log.info("deleteUser(Integer id)");
             Optional optional = userRepository.findById(id);
            if (optional.isPresent()){
                userRepository.deleteById(id);
-               return new ResponseEntity<>("user deleted successfully",HttpStatus.OK);
+               return "user deleted successfully";
            }
         }catch (Exception ex){
             ex.printStackTrace();
         }
-        return new ResponseEntity<>("", HttpStatus.INTERNAL_SERVER_ERROR);
+        return "Internal server error";
     }
 
     @Override

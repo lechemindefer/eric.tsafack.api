@@ -6,7 +6,6 @@ import eric.tsafack.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -15,20 +14,27 @@ import java.util.Map;
 
 @RestController
 public class UserControllerImpl implements UserController {
+
     private UserService userService;
+
     @Autowired
     public UserControllerImpl(UserService userService) {
         this.userService = userService;
     }
 
     @Override
-    public ResponseEntity<User> createUser(Map<String, String> requestMap) {
+    public String welcome() {
+        return "Welcome this endpoint is not secure";
+    }
+
+    @Override
+    public ResponseEntity<String> createUser(Map<String, String> requestMap) {
         try {
             return new ResponseEntity<>(userService.createUser(requestMap),HttpStatus.OK);
         }catch (Exception ex){
             ex.printStackTrace();
         }
-        return new ResponseEntity<>(new User(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>("User doesn't created ", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @Override
@@ -38,7 +44,7 @@ public class UserControllerImpl implements UserController {
         }catch (Exception ex){
             ex.printStackTrace();
         }
-        return new ResponseEntity<>(new User(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @Override
@@ -54,7 +60,7 @@ public class UserControllerImpl implements UserController {
     @Override
     public ResponseEntity<String> updateUser(Map<String, String> requestMap) {
         try {
-           return userService.updateUser(requestMap);
+           return new ResponseEntity<>(userService.updateUser(requestMap),HttpStatus.OK);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -64,7 +70,7 @@ public class UserControllerImpl implements UserController {
     @Override
     public ResponseEntity<String> deleteUser(Integer id) {
         try {
-            return userService.deleteUser(id);
+            return new ResponseEntity<>(userService.deleteUser(id),HttpStatus.OK);
         }catch (Exception ex){
             ex.printStackTrace();
         }
