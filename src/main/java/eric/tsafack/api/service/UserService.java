@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.Map;
 
 public interface UserService {
-    String createUser(Map<String, String> requestMap);
+    ResponseEntity<String> createUser(Map<String, String> requestMap);
 
-    User getUserById(Integer id);
+    ResponseEntity<User> getUserById(Integer id);
 
-    String updateUser(Map<String, String> requestMap);
+    ResponseEntity<String> updateUser(Map<String, String> requestMap);
 
-    String deleteUser(Integer id);
+    ResponseEntity<String> deleteUser(Integer id);
 
-    List<User> getAll();
+    ResponseEntity<List<User>> getAll();
 }

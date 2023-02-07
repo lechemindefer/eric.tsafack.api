@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
 
 @Configuration
 @EnableWebSecurity
@@ -20,14 +21,15 @@ public class SecurityConfig {
 
     @Bean
     //Authentication
-    public UserDetailsService userDetailsService(){
-        UserDetails admin = User.withUsername("Eric")
-                .password(passwordEncoder().encode("Pdw1"))
+    public UserDetailsService userDetailsService(PasswordEncoder encoder){
+
+        UserDetails admin = User.withUsername("eric")
+                .password(encoder.encode("Pdw1"))
                 .roles("ADMIN")
                 .build();
 
-        UserDetails user = User.withUsername("Annie")
-                .password(passwordEncoder().encode("Pdw2"))
+        UserDetails user = User.withUsername("annie")
+                .password(encoder.encode("Pdw2"))
                 .roles("USER")
                 .build();
         return new InMemoryUserDetailsManager(admin,user);
@@ -40,10 +42,13 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-       return  http.csrf().disable()
+       return  http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues())
+               .and().csrf().disable()
                 .authorizeHttpRequests()
                 .antMatchers("/", "/**", "/console/**").permitAll()
-                .and().headers().frameOptions().disable()
+                .and().headers()
+                .frameOptions()
+                .disable()
                 .and()
                 .authorizeHttpRequests()
                 .antMatchers("/users/welcome").permitAll()

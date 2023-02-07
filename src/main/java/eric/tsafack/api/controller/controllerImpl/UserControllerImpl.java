@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -30,27 +31,27 @@ public class UserControllerImpl implements UserController {
     @Override
     public ResponseEntity<String> createUser(Map<String, String> requestMap) {
         try {
-            return new ResponseEntity<>(userService.createUser(requestMap),HttpStatus.OK);
+            return userService.createUser(requestMap);
         }catch (Exception ex){
             ex.printStackTrace();
         }
-        return new ResponseEntity<>("User doesn't created ", HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>("somthing went wrong", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @Override
     public ResponseEntity<User> getUserById(Integer id) {
         try {
-           return new ResponseEntity<>(userService.getUserById(id),HttpStatus.OK);
+           return userService.getUserById(id);
         }catch (Exception ex){
             ex.printStackTrace();
         }
-        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(new User(),HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @Override
     public ResponseEntity<List<User>> getAll() {
         try{
-            return new ResponseEntity<>(userService.getAll(),HttpStatus.OK);
+            return userService.getAll();
         }catch (Exception ex){
            ex.printStackTrace();
         }
@@ -60,20 +61,20 @@ public class UserControllerImpl implements UserController {
     @Override
     public ResponseEntity<String> updateUser(Map<String, String> requestMap) {
         try {
-           return new ResponseEntity<>(userService.updateUser(requestMap),HttpStatus.OK);
+           return userService.updateUser(requestMap);
         }catch (Exception ex){
             ex.printStackTrace();
         }
-        return new ResponseEntity<>("User is not create", HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>("somthing went wrong", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @Override
     public ResponseEntity<String> deleteUser(Integer id) {
         try {
-            return new ResponseEntity<>(userService.deleteUser(id),HttpStatus.OK);
+            return userService.deleteUser(id);
         }catch (Exception ex){
             ex.printStackTrace();
         }
-        return new ResponseEntity<>("User is not create", HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>("something went wrong", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
